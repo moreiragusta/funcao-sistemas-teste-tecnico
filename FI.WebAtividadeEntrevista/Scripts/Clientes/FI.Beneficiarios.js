@@ -63,9 +63,9 @@ var BeneficiariosManager = {
         }
 
         // Verifica CPF duplicado
-        var cpfLimpo = CpfValidator.RemoverFormatacao(cpf);
+        var cpfLimpo = CpfValidator.removerFormatacao(cpf);
         var isDuplicado = this.beneficiarios.some(function (b, index) {
-            return CpfValidator.RemoverFormatacao(b.CPF) === cpfLimpo &&
+            return CpfValidator.removerFormatacao(b.CPF) === cpfLimpo &&
                 index !== BeneficiariosManager.editandoIndex;
         });
 

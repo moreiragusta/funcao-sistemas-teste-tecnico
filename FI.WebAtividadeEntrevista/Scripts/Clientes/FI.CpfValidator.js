@@ -39,6 +39,25 @@ var CpfValidator = {
     },
 
     /**
+     * Remove formatação do CPF
+     * @param {string} cpf - CPF formatado
+     * @returns {string} - CPF apenas com números
+     */
+    removerFormatacao: function (cpf) {
+        return cpf.replace(/[^\d]/g, '');
+    },
+
+    /**
+     * Formata CPF com pontos e hífen
+     * @param {string} cpf - CPF sem formatação
+     * @returns {string} - CPF formatado (999.999.999-99)
+     */
+    formatar: function (cpf) {
+        cpf = cpf.replace(/[^\d]/g, '');
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    },
+
+    /**
      * Aplica máscara de CPF em um input
      * @param {string} selector - Seletor CSS do input
      */
