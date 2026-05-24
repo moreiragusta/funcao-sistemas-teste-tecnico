@@ -59,6 +59,11 @@ namespace FI.AtividadeEntrevista.DML
         /// <summary>
         /// Telefone
         /// </summary>
-        public string Telefone { get; set; }        
+        public string Telefone { get; set; }
+
+        /// <summary>
+        /// CPF do cliente (formato: 999.999.999-99)
+        /// </summary>
+        public string CPF { get; set; }
     }    
 }
