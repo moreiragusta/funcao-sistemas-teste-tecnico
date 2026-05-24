@@ -62,7 +62,14 @@ namespace FI.AtividadeEntrevista.DAL
 
             DataSet ds = base.Consultar("FI_SP_VerificaCliente", parametros);
 
-            return ds.Tables[0].Rows.Count > 0;
+            // CORREÇÃO: Verificar o VALOR retornado, não se tem linhas
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                int count = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+                return count > 0;
+            }
+
+            return false;
         }
 
         internal List<Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
