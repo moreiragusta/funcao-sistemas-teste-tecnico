@@ -1,6 +1,8 @@
 ﻿using FI.AtividadeEntrevista.DML;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace FI.AtividadeEntrevista.DAL
@@ -27,6 +29,7 @@ namespace FI.AtividadeEntrevista.DAL
             parametros.Add(new System.Data.SqlClient.SqlParameter("Logradouro", cliente.Logradouro));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Email", cliente.Email));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Telefone", cliente.Telefone));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", cliente.CPF)); // NOVO
 
             DataSet ds = base.Consultar("FI_SP_IncClienteV2", parametros);
             long ret = 0;
@@ -116,6 +119,7 @@ namespace FI.AtividadeEntrevista.DAL
             parametros.Add(new System.Data.SqlClient.SqlParameter("Logradouro", cliente.Logradouro));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Email", cliente.Email));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Telefone", cliente.Telefone));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", cliente.CPF)); // NOVO
             parametros.Add(new System.Data.SqlClient.SqlParameter("ID", cliente.Id));
 
             base.Executar("FI_SP_AltCliente", parametros);
@@ -153,11 +157,38 @@ namespace FI.AtividadeEntrevista.DAL
                     cli.Nome = row.Field<string>("Nome");
                     cli.Sobrenome = row.Field<string>("Sobrenome");
                     cli.Telefone = row.Field<string>("Telefone");
+                    cli.CPF = row.Field<string>("CPF"); // NOVO
                     lista.Add(cli);
                 }
             }
 
             return lista;
+        }
+
+        /// <summary>
+        /// Verifica se já existe um cliente com o CPF informado
+        /// </summary>
+        /// <param name="cpf">CPF a verificar</param>
+        /// <param name="idCliente">ID do cliente (para ignorar na edição)</param>
+        /// <returns>True se CPF já existe, False caso contrário</returns>
+        internal bool VerificarExistenciaCPF(string cpf, long idCliente = 0)
+        {
+            List<SqlParameter> parametros = new List<SqlParameter>();
+            parametros.Add(new SqlParameter("CPF", cpf));
+            parametros.Add(new SqlParameter("ID", idCliente));
+
+            string query = @"SELECT COUNT(1) FROM CLIENTES 
+                     WHERE CPF = @CPF AND (@ID = 0 OR ID <> @ID)";
+
+            DataSet ds = base.Consultar(query, parametros);
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                int count = Convert.ToInt32(ds.Tables[0].Rows[0][0]);
+                return count > 0;
+            }
+
+            return false;
         }
     }
 }
