@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.9.34616.47
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11819.183 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FI.WebAtividadeEntrevista", "FI.WebAtividadeEntrevista\FI.WebAtividadeEntrevista.csproj", "{EDA04BC2-EFC2-487F-8F40-A95C652F6A15}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FI.AtividadeEntrevista", "FI.AtividadeEntrevista\FI.AtividadeEntrevista.csproj", "{2B795BB7-A890-48FA-8F70-EF89F2E318D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{78C7E1EA-86F3-44D7-BBBE-0522094C5336}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts_SQL.sql = Scripts_SQL.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
