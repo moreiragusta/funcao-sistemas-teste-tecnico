@@ -76,7 +76,14 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-primary" id="btnBeneficiarios">
+                Beneficiários
+            </button>
+        </div>
+    </div>
+    <br />
     <div class="row">
         <div class="col-lg-12">
             <div class="pull-right">
@@ -86,5 +93,70 @@
         </div>
     </div>
 
+
+    <!-- Modal de Beneficiários -->
+    <div class="modal fade" id="modalBeneficiarios" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                    <h4 class="modal-title">Beneficiários</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulário de inclusão -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="benef-cpf">CPF:</label>
+                                <input type="text" class="form-control cpf-mask" id="benef-cpf" placeholder="Ex.: 000.000.000-00" maxlength="14">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="benef-nome">Nome:</label>
+                                <input type="text" class="form-control" id="benef-nome" placeholder="Ex.: Maria" maxlength="50">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-success btn-sm" id="btnIncluirBenef">
+                                Incluir
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" id="btnCancelarEdicao" style="display:none;">
+                                Cancelar
+                            </button>
+                            <input type="hidden" id="benef-id-edicao">
+                        </div>
+                    </div>
+                    <br />
+
+                    <!-- Grid de beneficiários -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="gridBeneficiarios">
+                            <thead>
+                                <tr>
+                                    <th>CPF</th>
+                                    <th>Nome</th>
+                                    <th style="width: 120px;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Beneficiários serão inseridos aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p id="msgSemBeneficiarios" style="display:none; text-align:center; color:#999;">
+                        Nenhum beneficiário cadastrado
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </form>

@@ -40,6 +40,7 @@ namespace WebAtividadeEntrevista.Controllers
 
             try
             {
+                // Salvar cliente
                 model.Id = bo.Incluir(new Cliente()
                 {
                     Nome = model.Nome,
@@ -53,6 +54,12 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     CPF = model.CPF
                 });
+
+                // Salvar beneficiários
+                if (Request.Form["Beneficiarios"] != null)
+                {
+                    SalvarBeneficiarios(model.Id);
+                }
 
                 return Json("Cadastro efetuado com sucesso");
             }
@@ -80,6 +87,7 @@ namespace WebAtividadeEntrevista.Controllers
 
             try
             {
+                // Alterar cliente
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
@@ -94,6 +102,12 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     CPF = model.CPF
                 });
+
+                // Atualizar beneficiários
+                if (Request.Form["Beneficiarios"] != null)
+                {
+                    AtualizarBeneficiarios(model.Id);
+                }
 
                 return Json("Cliente alterado com sucesso");
             }
@@ -282,5 +296,49 @@ namespace WebAtividadeEntrevista.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// Salva beneficiários de um cliente (novo cliente)
+        /// </summary>
+        private void SalvarBeneficiarios(long idCliente)
+        {
+            var beneficiariosJson = Request.Form["Beneficiarios"];
+            if (string.IsNullOrEmpty(beneficiariosJson))
+                return;
+
+            var beneficiarios = Newtonsoft.Json.JsonConvert.DeserializeObject<List<BeneficiarioModel>>(beneficiariosJson);
+            BoBeneficiario bo = new BoBeneficiario();
+
+            foreach (var benef in beneficiarios)
+            {
+                benef.IdCliente = idCliente;
+                bo.Incluir(new Beneficiario
+                {
+                    CPF = benef.CPF,
+                    Nome = benef.Nome,
+                    IdCliente = benef.IdCliente
+                });
+            }
+        }
+
+        /// <summary>
+        /// Atualiza beneficiários de um cliente (cliente existente)
+        /// </summary>
+        private void AtualizarBeneficiarios(long idCliente)
+        {
+            BoBeneficiario bo = new BoBeneficiario();
+
+            // Remove beneficiários antigos
+            var beneficiariosAntigos = bo.ListarPorCliente(idCliente);
+            foreach (var benef in beneficiariosAntigos)
+            {
+                bo.Excluir(benef.Id);
+            }
+
+            // Adiciona novos beneficiários
+            SalvarBeneficiarios(idCliente);
+        }
+
     }
+
 }

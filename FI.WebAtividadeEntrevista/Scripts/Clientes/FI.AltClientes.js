@@ -11,6 +11,10 @@ $(document).ready(function () {
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
         $('#formCadastro #CPF').val(obj.CPF);
+
+        if (obj.Id) {
+            BeneficiariosManager.carregarBeneficiarios(obj.Id);
+        }
     }
     // Aplica máscara de CPF
     CpfValidator.aplicarMascara('.cpf-mask');
@@ -37,7 +41,8 @@ $(document).ready(function () {
                 "Cidade": $(this).find("#Cidade").val(),
                 "Logradouro": $(this).find("#Logradouro").val(),
                 "Telefone": $(this).find("#Telefone").val(),
-                "CPF": $(this).find("#CPF").val()
+                "CPF": $(this).find("#CPF").val(),
+                "Beneficiarios": BeneficiariosManager.obterBeneficiarios()
             },
             error:
             function (r) {
