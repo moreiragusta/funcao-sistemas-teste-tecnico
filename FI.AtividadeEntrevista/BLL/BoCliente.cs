@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FI.AtividadeEntrevista.Utils;
 
 namespace FI.AtividadeEntrevista.BLL
 {
@@ -14,8 +15,22 @@ namespace FI.AtividadeEntrevista.BLL
         /// <param name="cliente">Objeto de cliente</param>
         public long Incluir(DML.Cliente cliente)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Incluir(cliente);
+            // Validação: CPF obrigatório
+            if (string.IsNullOrWhiteSpace(cliente.CPF))
+                throw new Exception("CPF é obrigatório");
+            // Remove formatação do CPF para validação
+            string cpfLimpo = CpfValidator.RemoverFormatacao(cliente.CPF);
+            // Validação: CPF válido
+            if (!CpfValidator.IsValid(cpfLimpo))
+                throw new Exception("CPF inválido");
+            // Validação: CPF duplicado
+            DAL.DaoCliente dao = new DAL.DaoCliente();
+            if (dao.VerificarExistencia(cpfLimpo))
+                throw new Exception("CPF já cadastrado");
+            // Salva CPF formatado no banco
+            cliente.CPF = CpfValidator.Formatar(cpfLimpo);
+
+            return dao.Incluir(cliente);
         }
 
         /// <summary>
@@ -24,8 +39,29 @@ namespace FI.AtividadeEntrevista.BLL
         /// <param name="cliente">Objeto de cliente</param>
         public void Alterar(DML.Cliente cliente)
         {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
-            cli.Alterar(cliente);
+            // Validação: CPF obrigatório
+            if (string.IsNullOrWhiteSpace(cliente.CPF))
+                throw new Exception("CPF é obrigatório");
+            // Remove formatação do CPF para validação
+            string cpfLimpo = CpfValidator.RemoverFormatacao(cliente.CPF);
+            // Validação: CPF válido
+            if (!CpfValidator.IsValid(cpfLimpo))
+                throw new Exception("CPF inválido");
+            DAL.DaoCliente dao = new DAL.DaoCliente();
+            // Consulta cliente atual no banco
+            var clienteAtual = dao.Consultar(cliente.Id);
+            // Remove formatação do CPF atual para comparação
+            string cpfAtualLimpo = CpfValidator.RemoverFormatacao(clienteAtual.CPF);
+            // Só valida CPF duplicado se o CPF foi alterado
+            if (cpfAtualLimpo != cpfLimpo)
+            {
+                if (dao.VerificarExistencia(cpfLimpo))
+                    throw new Exception("CPF já cadastrado para outro cliente");
+            }
+            // Salva CPF formatado no banco
+            cliente.CPF = CpfValidator.Formatar(cpfLimpo);
+
+            dao.Alterar(cliente);
         }
 
         /// <summary>
