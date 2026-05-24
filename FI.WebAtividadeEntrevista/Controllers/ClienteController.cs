@@ -26,7 +26,7 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Incluir(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -36,25 +36,29 @@ namespace WebAtividadeEntrevista.Controllers
                 Response.StatusCode = 400;
                 return Json(string.Join(Environment.NewLine, erros));
             }
-            else
+
+            try
             {
-                
                 model.Id = bo.Incluir(new Cliente()
-                {                    
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
+                {
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
+                    Nacionalidade = model.Nacionalidade,
+                    CEP = model.CEP,
+                    Estado = model.Estado,
+                    Cidade = model.Cidade,
+                    Logradouro = model.Logradouro,
+                    Email = model.Email,
                     Telefone = model.Telefone,
                     CPF = model.CPF
                 });
 
-           
                 return Json("Cadastro efetuado com sucesso");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 400;
+                return Json(ex.Message);
             }
         }
 
@@ -62,7 +66,7 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-       
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -72,24 +76,30 @@ namespace WebAtividadeEntrevista.Controllers
                 Response.StatusCode = 400;
                 return Json(string.Join(Environment.NewLine, erros));
             }
-            else
+
+            try
             {
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
+                    Nacionalidade = model.Nacionalidade,
+                    CEP = model.CEP,
+                    Estado = model.Estado,
+                    Cidade = model.Cidade,
+                    Logradouro = model.Logradouro,
+                    Email = model.Email,
                     Telefone = model.Telefone,
                     CPF = model.CPF
                 });
-                               
-                return Json("Cadastro alterado com sucesso");
+
+                return Json("Cliente alterado com sucesso");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 400;
+                return Json(ex.Message);
             }
         }
 
@@ -98,27 +108,26 @@ namespace WebAtividadeEntrevista.Controllers
         {
             BoCliente bo = new BoCliente();
             Cliente cliente = bo.Consultar(id);
-            Models.ClienteModel model = null;
 
-            if (cliente != null)
+            if (cliente == null)
             {
-                model = new ClienteModel()
-                {
-                    Id = cliente.Id,
-                    CEP = cliente.CEP,
-                    Cidade = cliente.Cidade,
-                    Email = cliente.Email,
-                    Estado = cliente.Estado,
-                    Logradouro = cliente.Logradouro,
-                    Nacionalidade = cliente.Nacionalidade,
-                    Nome = cliente.Nome,
-                    Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone,
-                    CPF = model.CPF
-                };
-
-            
+                return HttpNotFound();
             }
+
+            Models.ClienteModel model = new Models.ClienteModel()
+            {
+                Id = cliente.Id,
+                Nome = cliente.Nome,
+                Sobrenome = cliente.Sobrenome,
+                Nacionalidade = cliente.Nacionalidade,
+                CEP = cliente.CEP,
+                Estado = cliente.Estado,
+                Cidade = cliente.Cidade,
+                Logradouro = cliente.Logradouro,
+                Email = cliente.Email,
+                Telefone = cliente.Telefone,
+                CPF = cliente.CPF  // TEM ESSA LINHA?
+            };
 
             return View(model);
         }
