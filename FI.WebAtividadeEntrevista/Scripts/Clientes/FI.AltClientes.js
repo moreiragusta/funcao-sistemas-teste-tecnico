@@ -42,7 +42,7 @@ $(document).ready(function () {
                 "Logradouro": $(this).find("#Logradouro").val(),
                 "Telefone": $(this).find("#Telefone").val(),
                 "CPF": $(this).find("#CPF").val(),
-                "Beneficiarios": BeneficiariosManager.obterBeneficiarios()
+                "Beneficiarios": JSON.stringify(BeneficiariosManager.obterBeneficiarios())
             },
             error:
             function (r) {

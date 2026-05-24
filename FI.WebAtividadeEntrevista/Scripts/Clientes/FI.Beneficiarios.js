@@ -157,13 +157,13 @@ var BeneficiariosManager = {
         $('#msgSemBeneficiarios').hide();
 
         this.beneficiarios.forEach(function (benef, index) {
-            var tr = $('<tr>');
-            tr.append('<td>' + benef.CPF + '</td>');
-            tr.append('<td>' + benef.Nome + '</td>');
+            var tr = $('<tr>').css('border-bottom', '1px solid #ddd');
+            tr.append('<td style="border: none;">' + benef.CPF + '</td>');
+            tr.append('<td style="border: none;">' + benef.Nome + '</td>');
             tr.append(
-                '<td>' +
+                '<td style="border: none;">' +
                 '<button type="button" class="btn btn-primary btn-sm" onclick="BeneficiariosManager.editarBeneficiario(' + index + ')">Alterar</button> ' +
-                '<button type="button" class="btn btn-danger btn-sm" onclick="BeneficiariosManager.excluirBeneficiario(' + index + ')">Excluir</button>' +
+                '<button type="button" class="btn btn-primary btn-sm" onclick="BeneficiariosManager.excluirBeneficiario(' + index + ')">Excluir</button>' +
                 '</td>'
             );
             tbody.append(tr);

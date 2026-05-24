@@ -27,11 +27,11 @@ namespace FI.WebAtividadeEntrevista
 
             bundles.Add(new ScriptBundle("~/bundles/jtable").Include(
                       "~/Scripts/jtable/jquery.jtable.min.js", 
-                      "~/Scripts/Clientes/FI.Beneficiarios.js",
                       "~/Scripts/jtable/localization/jquery.jtable.pt-BR.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
                       "~/Scripts/Clientes/FI.CpfValidator.js",
+                      "~/Scripts/Clientes/FI.Beneficiarios.js",
                       "~/Scripts/Clientes/FI.Clientes.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/listClientes").Include(
