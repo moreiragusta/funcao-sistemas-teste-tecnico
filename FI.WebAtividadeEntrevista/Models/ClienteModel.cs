@@ -67,5 +67,11 @@ namespace WebAtividadeEntrevista.Models
         /// </summary>
         public string Telefone { get; set; }
 
+        /// <summary>
+        /// CPF do cliente
+        /// </summary>
+        [Required(ErrorMessage = "CPF é obrigatório")]
+        [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}-\d{2}$", ErrorMessage = "CPF deve estar no formato 999.999.999-99")]
+        public string CPF { get; set; }
     }    
 }
