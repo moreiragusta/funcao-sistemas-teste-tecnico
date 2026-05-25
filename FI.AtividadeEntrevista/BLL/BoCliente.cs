@@ -23,9 +23,10 @@ namespace FI.AtividadeEntrevista.BLL
             // Validação: CPF válido
             if (!CpfValidator.IsValid(cpfLimpo))
                 throw new Exception("CPF inválido");
+            string cpfFormatado = CpfValidator.Formatar(cpfLimpo);
             // Validação: CPF duplicado
             DAL.DaoCliente dao = new DAL.DaoCliente();
-            if (dao.VerificarExistencia(cpfLimpo))
+            if (dao.VerificarExistencia(cpfFormatado))
                 throw new Exception("CPF já cadastrado");
             // Salva CPF formatado no banco
             cliente.CPF = CpfValidator.Formatar(cpfLimpo);
@@ -55,7 +56,7 @@ namespace FI.AtividadeEntrevista.BLL
             // Só valida CPF duplicado se o CPF foi alterado
             if (cpfAtualLimpo != cpfLimpo)
             {
-                if (dao.VerificarExistencia(cpfLimpo))
+                if (dao.VerificarExistencia(CpfValidator.Formatar(cpfLimpo)))
                     throw new Exception("CPF já cadastrado para outro cliente");
             }
             // Salva CPF formatado no banco

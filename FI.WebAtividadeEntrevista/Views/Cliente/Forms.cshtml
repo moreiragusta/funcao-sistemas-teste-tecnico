@@ -76,23 +76,21 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <button type="button" class="btn btn-primary" id="btnBeneficiarios">
-                Beneficiários
-            </button>
-        </div>
-    </div>
+
     <br />
     <div class="row">
         <div class="col-lg-12">
-            <div class="pull-right">
-                <button type="submit" class="btn btn-sm btn-success">Salvar</button>
-                @Html.ActionLink("Voltar", "Index", "Cliente", new { }, new { @class = "btn btn-sm btn-danger" })
+            <div>
+                <button type="button" class="btn btn-primary" id="btnBeneficiarios">
+                    Beneficiários
+                </button>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-sm btn-success">Salvar</button>
+                    @Html.ActionLink("Voltar", "Index", "Cliente", new { }, new { @class = "btn btn-sm btn-danger" })
+                </div>
             </div>
         </div>
     </div>
-
 
     <!-- Modal de Beneficiários -->
     <div class="modal fade" id="modalBeneficiarios" tabindex="-1" role="dialog">
